@@ -1,0 +1,172 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Scribe",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#types"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#strings_single"
+		},
+		{
+			"include": "#strings_back"
+		},
+		{
+			"include": "#numerics"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#atoms"
+		},
+		{
+			"include": "#struct_types"
+		},
+		{
+			"include": "#assignments"
+		},
+		{
+			"include": "#line_comment"
+		},
+		{
+			"include": "#block_comment"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control",
+				"match": "\\b(let|fn|return|if|elif|else|for|in|while|continue|break|or)\\b"
+			},
+			{
+				"name": "storage",
+				"match": "\\b(struct|enum|trait|static|const|extern|comptime|self|true|false|nil|(i|u)(8|16|32|64|128)|f(32|64|128)|bool)\\b"
+			},
+			{
+				"match": "\\b(struct|enum|trait)\\b[\\s]*\\<([\\w]+)\\>",
+				"captures": {
+					"1": {
+						"name": "keyword.control"
+					},
+					"2": {
+						"name": "storage"
+					}
+				}
+			}]
+		},
+		"types": {
+			"patterns": [{
+				"match": "\\:[\\s]*([\\*\\&]*\\b[_\\w\\ \\.]+\\b)(?:\\<\\b([_\\w\\.]+)\\b\\>)?",
+				"captures": {
+					"1": {
+						"name": "keyword.other"
+					},
+					"2": {
+						"name": "storage"
+					}
+				}
+			}]
+		},
+		"strings": {
+			"name": "string.quoted.double",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [{
+				"name": "constant.character.escape",
+				"match": "\\\\."
+			}]
+		},
+		"strings_single": {
+			"name": "string.quoted.single",
+			"begin": "'",
+			"end": "'",
+			"patterns": [{
+				"name": "constant.character.escape",
+				"match": "\\\\."
+			}]
+		},
+		"strings_back": {
+			"name": "string.quoted.single",
+			"begin": "`",
+			"end": "`",
+			"patterns": [{
+				"name": "constant.character.escape",
+				"match": "\\\\."
+			}]
+		},
+		"numerics": {
+			"patterns": [{
+				"match": "\\b([0-9]+[\\.]*[0-9]*)\\b",
+				"captures": {
+					"1": {
+						"name": "constant.numeric"
+					}
+				}
+			}]
+		},
+		"functions": {
+			"patterns": [{
+				"match": "[\\s\\.]*\\b((?!fn)[_\\w]+)\\b[\\s]*(?:\\.\\<\\b((?!fn)[_\\w]+)\\b\\>)?[\\s]*\\(",
+				"captures": {
+					"1": {
+						"name": "variable.language"
+					},
+					"2": {
+						"name": "storage"
+					}
+				}
+			}]
+		},
+		"atoms": {
+			"patterns": [{
+				"match": "(?:^|[\\s\\(]+)(\\.[a-zA-Z0-9_]+)",
+				"captures": {
+					"1": {
+						"name": "entity.name.tag"
+					}
+				}
+			}]
+		},
+		"struct_types": {
+			"patterns": [{
+				"name": "storage.modifier",
+				"match": "\\b[a-zA-Z0-9_]+_t\\b"
+			}]
+		},
+		"assignments": {
+			"patterns": [{
+				"match": "\\b([_\\w]+)\\b[\\s]*\\=(?!\\=)[\\s]*",
+				"captures": {
+					"1": {
+						"name": "support.class"
+					}
+				}
+			}]
+		},
+		"line_comment": {
+			"comment": "Single-line comment",
+			"name": "comment.line",
+			"begin": "//",
+			"end": "$"
+		},
+		"block_comment": {
+			"comment": "Block comment",
+			"name": "comment.block",
+			"begin": "/\\*",
+			"end": "\\*/",
+			"patterns": [
+				{
+					"include": "#block_comment"
+				}
+			]
+		}
+	},
+	"scopeName": "source.scr"
+}
