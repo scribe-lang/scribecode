@@ -47,7 +47,7 @@
 			},
 			{
 				"name": "storage",
-				"match": "\\b(struct|enum|trait|static|const|extern|comptime|inline|self|true|false|nil|(i|u)(8|16|32|64|128)|f(32|64|128)|bool)\\b"
+				"match": "\\b(struct|enum|trait|static|const|defer|extern|comptime|global|inline|self|true|false|nil|i1|(i|u)(8|16|32|64|128)|f(32|64|128)|bool)\\b"
 			},
 			{
 				"match": "\\b(struct|enum|trait)\\b[\\s]*\\<([\\w]+)\\>",
