@@ -6,7 +6,7 @@
 			"include": "#keywords"
 		},
 		{
-			"include": "#types"
+			"include": "#vars"
 		},
 		{
 			"include": "#strings"
@@ -24,6 +24,9 @@
 			"include": "#functions"
 		},
 		{
+			"include": "#fields"
+		},
+		{
 			"include": "#atoms"
 		},
 		{
@@ -31,6 +34,9 @@
 		},
 		{
 			"include": "#assignments"
+		},
+		{
+			"include": "#identifiers"
 		},
 		{
 			"include": "#line_comment"
@@ -41,114 +47,168 @@
 	],
 	"repository": {
 		"keywords": {
-			"patterns": [{
-				"name": "keyword.control",
-				"match": "\\b(let|fn|return|if|elif|else|for|in|while|continue|break|or)\\b"
-			},
-			{
-				"name": "storage",
-				"match": "\\b(struct|enum|trait|static|const|defer|extern|comptime|global|inline|self|true|false|void|nil|i1|(i|u)(8|16|32|64|128)|f(32|64|128)|bool)\\b"
-			},
-			{
-				"match": "\\b(struct|enum|trait)\\b[\\s]*\\<([\\w]+)\\>",
-				"captures": {
-					"1": {
-						"name": "keyword.control"
-					},
-					"2": {
-						"name": "storage"
+			"patterns": [
+				{
+					"name": "keyword.control",
+					"match": "\\b(fn|return|if|elif|else|for|while|continue|break|or|static|const|defer|extern|comptime|global|inline)\\b"
+				},
+				{
+					"name": "storage",
+					"match": "\\b(self|true|false|void|nil|i1|(i|u)(8|16|32|64|128)|f(32|64|128)|bool)\\b"
+				},
+				{
+					"match": "\\b(struct|enum|trait)\\b(?:[\\s]*\\<([\\w]+(?:[\\s]*\\,[\\s]*[\\w]+)*)\\>)?",
+					"captures": {
+						"1": {
+							"name": "keyword.control"
+						},
+						"2": {
+							"name": "storage"
+						}
 					}
 				}
-			}]
+			]
 		},
-		"types": {
-			"patterns": [{
-				"match": "\\:[\\s]*([\\*\\&]*\\b[_\\w\\ \\.]+\\b)(?:\\<\\b([_\\w\\.]+)\\b\\>)?",
-				"captures": {
-					"1": {
-						"name": "keyword.other"
-					},
-					"2": {
-						"name": "storage"
+		"vars": {
+			"patterns": [
+				{
+					"match": "(let|in)[\\s]+((?:comptime|const)[\\s]+)?(\\b[_\\w\\.]+\\b)",
+					"captures": {
+						"1": {
+							"name": "keyword.control"
+						},
+						"2": {
+							"name": "keyword.control"
+						},
+						"3": {
+							"name": "support.class"
+						}
+					}
+				},
+				{
+					"match": "(\\b[_\\w]+\\b)?[\\s]*\\:[\\s]*([\\@]?[\\.\\*\\&]*\\b[_\\w\\ \\.]+\\b)(\\b[_\\w\\.]+\\b)?",
+					"captures": {
+						"1": {
+							"name": "support.class"
+						},
+						"2": {
+							"name": "keyword.other"
+						},
+						"3": {
+							"name": "storage"
+						}
 					}
 				}
-			}]
+			]
 		},
 		"strings": {
 			"name": "string.quoted.double",
 			"begin": "\"",
 			"end": "\"",
-			"patterns": [{
-				"name": "constant.character.escape",
-				"match": "\\\\."
-			}]
+			"patterns": [
+				{
+					"name": "constant.character.escape",
+					"match": "\\\\."
+				}
+			]
 		},
 		"strings_single": {
 			"name": "string.quoted.single",
 			"begin": "'",
 			"end": "'",
-			"patterns": [{
-				"name": "constant.character.escape",
-				"match": "\\\\."
-			}]
+			"patterns": [
+				{
+					"name": "constant.character.escape",
+					"match": "\\\\."
+				}
+			]
 		},
 		"strings_back": {
 			"name": "string.quoted.single",
 			"begin": "`",
 			"end": "`",
-			"patterns": [{
-				"name": "constant.character.escape",
-				"match": "\\\\."
-			}]
+			"patterns": [
+				{
+					"name": "constant.character.escape",
+					"match": "\\\\."
+				}
+			]
 		},
 		"numerics": {
-			"patterns": [{
-				"match": "\\b([0-9]+[\\.]*[0-9]*)\\b",
-				"captures": {
-					"1": {
-						"name": "constant.numeric"
+			"patterns": [
+				{
+					"match": "\\b([0-9]+[\\.]*[0-9]*)\\b",
+					"captures": {
+						"1": {
+							"name": "constant.numeric"
+						}
 					}
 				}
-			}]
+			]
 		},
 		"functions": {
-			"patterns": [{
-				"match": "[\\s\\.]*\\b((?!fn)[_\\w]+)\\b[\\s]*(?:\\.\\<\\b((?!fn)[_\\w]+)\\b\\>)?[\\s]*\\(",
-				"captures": {
-					"1": {
-						"name": "variable.language"
-					},
-					"2": {
-						"name": "storage"
+			"patterns": [
+				{
+					"match": "[\\s\\.]*\\b((?!fn)[_\\w]+)\\b[\\s]*(?:\\.\\<\\b((?!fn)[_\\w]+)\\b\\>)?[\\s]*\\(",
+					"captures": {
+						"1": {
+							"name": "variable.language"
+						}
 					}
 				}
-			}]
+			]
+		},
+		"fields": {
+			"patterns": [
+				{
+					"match": "(\\b[_\\w]+\\b)\\.",
+					"captures": {
+						"1": {
+							"name": "entity.name.function"
+						}
+					}
+				}
+			]
 		},
 		"atoms": {
-			"patterns": [{
-				"match": "(?:^|[\\s\\(]+)(\\.[a-zA-Z0-9_]+)",
-				"captures": {
-					"1": {
-						"name": "entity.name.tag"
+			"patterns": [
+				{
+					"match": "(?:^|[\\s\\(]+)(\\.[a-zA-Z0-9_]+)",
+					"captures": {
+						"1": {
+							"name": "entity.name.tag"
+						}
 					}
 				}
-			}]
+			]
 		},
 		"struct_types": {
-			"patterns": [{
-				"name": "storage.modifier",
-				"match": "\\b[a-zA-Z0-9_]+_t\\b"
-			}]
+			"patterns": [
+				{
+					"name": "storage.modifier",
+					"match": "\\b[a-zA-Z0-9_]+_t\\b"
+				}
+			]
 		},
 		"assignments": {
-			"patterns": [{
-				"match": "\\b([_\\w]+)\\b[\\s]*\\=(?!\\=)[\\s]*",
-				"captures": {
-					"1": {
-						"name": "support.class"
+			"patterns": [
+				{
+					"match": "(\\b[_\\w\\.]+\\b)[\\s]*\\=(?!\\=)[\\s]*",
+					"captures": {
+						"1": {
+							"name": "support.class"
+						}
 					}
 				}
-			}]
+			]
+		},
+		"#identifiers": {
+			"patterns": [
+				{
+					"name": "entity.name.function",
+					"match": "\\b[_\\w]+\\b"
+				}
+			]
 		},
 		"line_comment": {
 			"comment": "Single-line comment",
