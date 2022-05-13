@@ -1,25 +1,39 @@
 {
-    "name": "scribe",
-    "displayName": "scribe",
-    "description": "Syntax Highlighting of Scribe Programming Language for VS Code",
-    "version": "0.0.1",
-    "engines": {
-        "vscode": "^1.46.0"
-    },
-    "categories": [
-        "Programming Languages"
+  "name": "scribe",
+  "displayName": "Scribe",
+  "description": "Syntax Highlighting for Scribe Programming Language in VS Code",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scribelang/scribecode.git"
+  },
+  "engines": {
+    "vscode": "^1.76.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "scribe",
+        "aliases": [
+          "Scribe",
+          "scribe"
+        ],
+        "extensions": [
+          ".sc",
+          ".scir"
+        ],
+        "configuration": "./language-configuration.json"
+      }
     ],
-    "contributes": {
-        "languages": [{
-            "id": "scribe",
-            "aliases": ["Scribe", "scribe"],
-            "extensions": [".sc"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "scribe",
-            "scopeName": "source.scr",
-            "path": "./syntaxes/scribe.tmLanguage.json"
-        }]
-    }
+    "grammars": [
+      {
+        "language": "scribe",
+        "scopeName": "source.scribe",
+        "path": "./syntaxes/scribe.tmLanguage.json"
+      }
+    ]
+  }
 }
